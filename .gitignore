@@ -34,3 +34,6 @@
 # Otheres
 core
 .vscode
+
+.idea/
+cmake-build-debug/
