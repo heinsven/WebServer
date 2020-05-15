@@ -1,24 +1,17 @@
-// @Author Lin Ya
-// @Email xxbbb@vip.qq.com
 #include "../Logging.h"
 #include "../Thread.h"
-#include <string>
-#include <unistd.h>
 #include <vector>
-#include <memory>
 #include <iostream>
+
 using namespace std;
 
-void threadFunc()
-{
-    for (int i = 0; i < 100000; ++i)
-    {
+void threadFunc() {
+    for (int i = 0; i < 100000; ++i) {
         LOG << i;
     }
 }
 
-void type_test()
-{
+void type_test() {
     // 13 lines
     cout << "----------type test-----------" << endl;
     LOG << 0;
@@ -36,43 +29,36 @@ void type_test()
     LOG << string("This is a string");
 }
 
-void stressing_single_thread()
-{
+void stressing_single_thread() {
     // 100000 lines
     cout << "----------stressing test single thread-----------" << endl;
-    for (int i = 0; i < 100000; ++i)
-    {
+    for (int i = 0; i < 100000; ++i) {
         LOG << i;
     }
 }
 
-void stressing_multi_threads(int threadNum = 4)
-{
+void stressing_multi_threads(int threadNum = 4) {
     // threadNum * 100000 lines
     cout << "----------stressing test multi thread-----------" << endl;
     vector<shared_ptr<Thread>> vsp;
-    for (int i = 0; i < threadNum; ++i)
-    {
+    for (int i = 0; i < threadNum; ++i) {
         shared_ptr<Thread> tmp(new Thread(threadFunc, "testFunc"));
         vsp.push_back(tmp);
     }
-    for (int i = 0; i < threadNum; ++i)
-    {
+    for (int i = 0; i < threadNum; ++i) {
         vsp[i]->start();
     }
     sleep(3);
 }
 
-void other()
-{
+void other() {
     // 1 line
     cout << "----------other test-----------" << endl;
     LOG << "fddsa" << 'c' << 0 << 3.666 << string("This is a string");
 }
 
 
-int main()
-{
+int main() {
     // 共500014行
     type_test();
     sleep(3);

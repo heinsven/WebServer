@@ -1,8 +1,6 @@
-// @Author Lin Ya
-// @Email xxbbb@vip.qq.com
-
 // This file has not been used
 #pragma once
+
 #include "Channel.h"
 #include <pthread.h>
 #include <functional>
@@ -19,21 +17,18 @@ const int THREADPOOL_GRACEFUL = 1;
 const int MAX_THREADS = 1024;
 const int MAX_QUEUE = 65535;
 
-typedef enum
-{
+typedef enum {
     immediate_shutdown = 1,
-    graceful_shutdown  = 2
+    graceful_shutdown = 2
 } ShutDownOption;
 
-struct ThreadPoolTask
-{
+struct ThreadPoolTask {
     std::function<void(std::shared_ptr<void>)> fun;
     std::shared_ptr<void> args;
 };
 
 
-class ThreadPool
-{
+class ThreadPool {
 private:
     static pthread_mutex_t lock;
     static pthread_cond_t notify;
@@ -50,8 +45,12 @@ private:
     static int started;
 public:
     static int threadpool_create(int _thread_count, int _queue_size);
+
     static int threadpool_add(std::shared_ptr<void> args, std::function<void(std::shared_ptr<void>)> fun);
+
     static int threadpool_destroy(ShutDownOption shutdown_option = graceful_shutdown);
+
     static int threadpool_free();
+
     static void *threadpool_thread(void *args);
 };
